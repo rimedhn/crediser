@@ -12,16 +12,60 @@
         background-color: #f0f0f0; /* Color de fondo para la página, ayuda a visualizar el ticket */
       }
       #letter-size {
-        width: 8.5in; /* Ancho de tamano carta */
-        min-height: 11in; /* Altura mínima, puede crecer con el contenido */
-        margin: 0.7in auto; /* Margen superior/inferior y centrado horizontal */
-        padding: 5px;
+        /* ESTO ES PARA LA VISTA EN PANTALLA. Si quieres que en pantalla también se vea como media carta, mantenlo así. */
+        /* Si quieres que en pantalla se vea como una página normal y solo la impresión sea carta, quita estas líneas */
+        width: 5.5in; /* Ancho de media carta aproximadamente */
+        min-height: 7in; /* Altura mínima, puede crecer con el contenido */
+        margin: 0.2in auto; /* Margen superior/inferior y centrado horizontal */
+        padding: 10px;
         font-family: Arial, sans-serif;
         background-color: #fff; /* Fondo blanco para el ticket */
         font-size: 10px; /* Tamaño de fuente base */
       }
 
-      .label { /* No se usa directamente en esta estructura, pero se mantiene si es necesario */
+      /* Estilos específicos para la impresión */
+      @media print {
+        body {
+          /* Reiniciar márgenes para impresión */
+          margin: 0;
+          padding: 0;
+          -webkit-print-color-adjust: exact; /* Para asegurar que los colores de fondo se impriman */
+          color-adjust: exact;
+        }
+
+        #letter-size {
+          /* Tamaño de una hoja carta real en pulgadas */
+          width: 8.5in; /* 215.9mm */
+          height: 11in; /* 279.4mm */
+          margin: 0; /* Eliminar márgenes en impresión */
+          padding: 0.5in; /* Puedes ajustar este padding para los márgenes de impresión del contenido */
+          box-sizing: border-box; /* Asegura que el padding no añada al ancho/alto total */
+          font-size: 10px; /* Asegura el tamaño de fuente para impresión */
+          overflow: hidden; /* Evita barras de desplazamiento dentro de la página impresa */
+        }
+        /* Ocultar elementos no deseados en la impresión si los hubiera, por ejemplo: */
+        /* .no-print { display: none; } */
+
+        /* Ajustes adicionales para elementos internos si es necesario */
+        table {
+          page-break-inside: auto; /* Evita que las tablas se corten a la mitad */
+        }
+        tr {
+          page-break-inside: avoid;
+          page-break-after: auto;
+        }
+        thead {
+          display: table-header-group; /* Repite los encabezados de tabla en cada nueva página */
+        }
+        tfoot {
+          display: table-footer-group; /* Repite los pies de tabla en cada nueva página */
+        }
+      }
+
+      /* Los estilos que ya tenías para el resto de los elementos (tablas, th, td, etc.) */
+      /* ... (tu código CSS existente aquí) ... */
+      .label {
+        /* No se usa directamente en esta estructura, pero se mantiene si es necesario */
         text-align: center;
         font-size: 18px;
         margin-bottom: 10px;
@@ -40,9 +84,11 @@
         text-align: left; /* Alineación izquierda por defecto */
         vertical-align: top;
       }
-      
+
       /* Tabla de encabezado sin bordes */
-      .sin-bordes, .sin-bordes th, .sin-bordes td {
+      .sin-bordes,
+      .sin-bordes th,
+      .sin-bordes td {
         border: none !important;
       }
 
@@ -66,7 +112,8 @@
         color: #333;
       }
       /* Ajuste para el email de la empresa */
-      #letter-size span#email-content { /* ID específico para el contenido del email */
+      #letter-size span#email-content {
+        /* ID específico para el contenido del email */
         display: inline-block; /* Permite max-width */
         word-wrap: break-word;
         overflow-wrap: break-word;
@@ -75,7 +122,6 @@
         vertical-align: top; /* Alinear con "Email: " */
       }
 
-
       #tabla-cliente-factura th {
         text-align: center;
         font-weight: bold;
@@ -83,13 +129,13 @@
         font-size: 11px;
         padding: 8px;
       }
-       #tabla-cliente-factura td > div { /* Contenedor de los datos del cliente/factura */
+      #tabla-cliente-factura td > div {
+        /* Contenedor de los datos del cliente/factura */
         padding: 5px;
-       }
-       #tabla-cliente-factura td {
+      }
+      #tabla-cliente-factura td {
         word-break: break-word; /* Para direcciones largas de cliente */
-       }
-
+      }
 
       #tabla-productos thead th {
         text-align: center;
@@ -110,7 +156,8 @@
       #tabla-productos tbody td.cantidad-producto {
         text-align: center;
       }
-      #tabla-productos h2 { /* Encabezados de columnas en tabla productos */
+      #tabla-productos h2 {
+        /* Encabezados de columnas en tabla productos */
         font-size: 10px; /* Ajustado de 4mm */
         text-align: center;
         line-height: 1.2; /* Ajustado de 0.1 */
@@ -118,15 +165,14 @@
         font-weight: bold;
       }
 
-
       #tabla-totales-observaciones .info-adicional {
         font-size: 9.5px;
         vertical-align: top;
       }
       #tabla-totales-observaciones .info-adicional hr {
-          border: none;
-          border-top: 1px dashed #888;
-          margin: 6px 0;
+        border: none;
+        border-top: 1px dashed #888;
+        margin: 6px 0;
       }
       #tabla-totales-observaciones .etiquetas-totales {
         text-align: right;
@@ -140,8 +186,8 @@
         font-weight: bold;
       }
 
-
-      #montoLetrasTotal, #agradecimientoFooter {
+      #montoLetrasTotal,
+      #agradecimientoFooter {
         text-align: center;
         font-size: 10px;
         padding: 8px;
@@ -161,7 +207,6 @@
         margin-bottom: 10px;
       }
 
-
       #tabla-footer td {
         font-size: 9px;
         vertical-align: middle;
@@ -178,7 +223,8 @@
         max-height: 45px; /* Altura del código de barras */
       }
 
-      #letter-size h2#tipodoc-header { /* Título del documento (ej. FACTURA) */
+      #letter-size h2#tipodoc-header {
+        /* Título del documento (ej. FACTURA) */
         font-size: 18px;
         text-align: center;
         margin: 0 0 10px 0;
@@ -186,8 +232,9 @@
         color: #000;
       }
 
-      .mi-imagen { /* Logo */
-        width: 90px; 
+      .mi-imagen {
+        /* Logo */
+        width: 90px;
         height: auto;
         max-height: 90px;
       }
@@ -198,14 +245,20 @@
       <table id="tabla-encabezado" class="sin-bordes">
         <tr>
           <td class="logo-container">
-            <img src="https://github.com/rimedhn/crediser/blob/main/LOGO%20CREDISER%207.2.png?raw=true" alt="Logo Elysium Droguerìa" class="mi-imagen" onerror="this.style.display='none'"/>
+            <img
+              src="https://github.com/rimedhn/crediser/blob/main/LOGO%20CREDISER%207.2.png?raw=true"
+              alt="Logo Elysium Droguerìa"
+              class="mi-imagen"
+              onerror="this.style.display='none'"
+            />
           </td>
           <td class="empresa-info-container">
             <b id="empresa">ELYSIUM DROGUERIA</b><br />
             <b id="razon"></b> <b>RTN: <span id="rtn"></span></b><br />
             <b>Dirección: <span id="direccion"></span></b><br />
             <b>Teléfono: <span id="telefono"></span></b><br />
-            <b>Email: <span id="email-content"></span></b> </td>
+            <b>Email: <span id="email-content"></span></b>
+          </td>
         </tr>
       </table>
 
@@ -217,8 +270,8 @@
             </th>
           </tr>
           <tr>
-            <th colspan="6" style="width: 50%;">Datos del Cliente</th>
-            <th colspan="6" style="width: 50%;">Datos de la Factura</th>
+            <th colspan="6" style="width: 50%">Datos del Cliente</th>
+            <th colspan="6" style="width: 50%">Datos de la Factura</th>
           </tr>
         </thead>
         <tbody>
@@ -249,24 +302,28 @@
       <table id="tabla-productos">
         <thead>
           <tr>
-            <td colspan="6" style="text-align:center; font-weight:bold; background-color: #e9e9e9;">Detalle de Productos/Servicios</td>
+            <td
+              colspan="6"
+              style="text-align: center; font-weight: bold; background-color: #e9e9e9"
+            >
+              Detalle de Productos/Servicios
+            </td>
           </tr>
           <tr>
-            <th style="width: 10%;"><h2>Cant</h2></th>
-            <th style="width: 35%;"><h2>Descripción</h2></th>
-            <th style="width: 15%;"><h2>Precio U.</h2></th>
-            <th style="width: 15%;"><h2>Subtotal</h2></th>
-            <th style="width: 10%;"><h2>ISV</h2></th>
-            <th style="width: 15%;"><h2>Monto</h2></th>
+            <th style="width: 10%"><h2>Cant</h2></th>
+            <th style="width: 35%"><h2>Descripción</h2></th>
+            <th style="width: 15%"><h2>Precio U.</h2></th>
+            <th style="width: 15%"><h2>Subtotal</h2></th>
+            <th style="width: 10%"><h2>ISV</h2></th>
+            <th style="width: 15%"><h2>Monto</h2></th>
           </tr>
         </thead>
-        <tbody id="productList">
-          </tbody>
+        <tbody id="productList"></tbody>
       </table>
-      
+
       <table id="tabla-totales-observaciones">
         <tr>
-          <td colspan="3" class="info-adicional" style="width: 50%;">
+          <td colspan="3" class="info-adicional" style="width: 50%">
             <b>Datos del Cliente Exonerado:</b><br />
             Orden de Compra Exenta: <b id="ocexe"></b><br />
             No. Registro Exonerado: <b id="ocexo"></b><br />
@@ -279,9 +336,17 @@
             Cuota por Pago: <b>L <span id="cuota"></span></b>
             <hr />
             Observaciones:<br />
-            <span id="observacion" style="display:block; min-height: 30px; word-wrap:break-word; white-space:normal;"></span>
+            <span
+              id="observacion"
+              style="
+                display: block;
+                min-height: 30px;
+                word-wrap: break-word;
+                white-space: normal;
+              "
+            ></span>
           </td>
-          <td colspan="1" class="etiquetas-totales" style="width: 30%;">
+          <td colspan="1" class="etiquetas-totales" style="width: 30%">
             Subtotal:<br />
             Descuentos y Rebajas:<br />
             Valor Exento:<br />
@@ -292,7 +357,7 @@
             ISV 18%:<br />
             <b>Total Venta:</b>
           </td>
-          <td colspan="2" class="valores-totales" style="width: 20%;">
+          <td colspan="2" class="valores-totales" style="width: 20%">
             L <span id="subtotal"></span><br />
             L <span id="descuento"></span><br />
             L <span id="subtotalexe"></span><br />
@@ -305,21 +370,19 @@
           </td>
         </tr>
       </table>
-      
-      <div id="montoLetrasTotal">
-        SON: <span id="montoLetras"></span>
-      </div>
 
-      <div id="agradecimientoFooter">
-        ¡Gracias por su preferencia!
-      </div>
+      <div id="montoLetrasTotal">SON: <span id="montoLetras"></span></div>
+
+      <div id="agradecimientoFooter">¡Gracias por su preferencia!</div>
 
       <table id="tabla-footer" class="sin-bordes">
         <tr>
-          <td class="info-contacto-footer" style="width: 70%;">
+          <td class="info-contacto-footer" style="width: 70%">
             <b>Original: Cliente, Copia: Emisor</b><br />
-            <span>www.rmposhn.com</span><br /> <span>indime.hn@gmail.com</span><br /> <span>(+504) 9359-3126</span> </td>
-          <td class="barcode-footer" style="width: 30%;">
+            <span>www.rmposhn.com</span><br /> <span>indime.hn@gmail.com</span
+            ><br /> <span>(+504) 9359-3126</span>
+          </td>
+          <td class="barcode-footer" style="width: 30%">
             <img alt="Código de Barras de Factura" id="barcode" />
           </td>
         </tr>
@@ -338,15 +401,15 @@
         if (value === null || value === undefined || String(value).trim() === "") {
           return "0.00";
         }
-        const number = parseFloat(String(value).replace(/,/g, ''));
+        const number = parseFloat(String(value).replace(/,/g, ""));
         if (isNaN(number)) {
           return "0.00";
         }
-        let [integerPart, decimalPart] = number.toFixed(2).split('.');
+        let [integerPart, decimalPart] = number.toFixed(2).split(".");
         integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return integerPart + "." + (decimalPart || "00");
       }
-      
+
       // Función para establecer el contenido de texto de un elemento, con formato de moneda opcional
       function setTextContent(id, value, isCurrency = false) {
         const element = document.getElementById(id);
@@ -379,7 +442,7 @@
         setTextContent("rango", getQueryParam("rango"));
         setTextContent("limite", getQueryParam("limite"));
         setTextContent("cajero", getQueryParam("cajero"));
-        
+
         // Datos exonerado y condiciones de pago
         setTextContent("ocexe", getQueryParam("ocexe"));
         setTextContent("ocexo", getQueryParam("ocexo"));
@@ -392,7 +455,7 @@
 
         // Totales
         setTextContent("subtotal", getQueryParam("subtotal"), true);
-        setTextContent("descuento", getQueryParam("descuento"), true);
+        setTextContent("descuento", getQueryQueryParam("descuento"), true);
         setTextContent("subtotalexe", getQueryParam("subtotalexe"), true);
         setTextContent("subtotalexo", getQueryParam("subtotalexo"), true);
         setTextContent("subtotalisv15", getQueryParam("subtotalisv15"), true);
@@ -402,36 +465,48 @@
         setTextContent("total", getQueryParam("total"), true);
 
         // Poblar tabla de productos
-        var descriptions = getQueryParam("descriptions") ? getQueryParam("descriptions").split(",") : [];
-        var quantitys = getQueryParam("quantitys") ? getQueryParam("quantitys").split(",") : [];
-        var prices = getQueryParam("price") ? getQueryParam("price").split(",") : [];
-        var subtproductos = getQueryParam("subtproducto") ? getQueryParam("subtproducto").split(",") : [];
-        var isvproductos = getQueryParam("isvproducto") ? getQueryParam("isvproducto").split(",") : [];
-        var amounts = getQueryParam("amounts") ? getQueryParam("amounts").split(",") : [];
+        var descriptions = getQueryParam("descriptions")
+          ? getQueryParam("descriptions").split(",")
+          : [];
+        var quantitys = getQueryParam("quantitys")
+          ? getQueryParam("quantitys").split(",")
+          : [];
+        var prices = getQueryParam("price")
+          ? getQueryParam("price").split(",")
+          : [];
+        var subtproductos = getQueryParam("subtproducto")
+          ? getQueryParam("subtproducto").split(",")
+          : [];
+        var isvproductos = getQueryParam("isvproducto")
+          ? getQueryParam("isvproducto").split(",")
+          : [];
+        var amounts = getQueryParam("amounts")
+          ? getQueryParam("amounts").split(",")
+          : [];
 
         var productList = document.getElementById("productList");
         productList.innerHTML = ""; // Limpiar lista antes de agregar
         if (descriptions.length > 0 && descriptions[0] !== "") {
-            for (var i = 0; i < descriptions.length; i++) {
-              var row = productList.insertRow();
-              row.insertCell(0).textContent = quantitys[i] || '0';
-              row.cells[0].className = 'cantidad-producto';
+          for (var i = 0; i < descriptions.length; i++) {
+            var row = productList.insertRow();
+            row.insertCell(0).textContent = quantitys[i] || "0";
+            row.cells[0].className = "cantidad-producto";
 
-              row.insertCell(1).textContent = descriptions[i] || 'N/A';
-              row.cells[1].className = 'descripcion-producto';
-              
-              row.insertCell(2).textContent = formatCurrency(prices[i] || '0');
-              // row.cells[2].className = 'Price'; // Ya se alinea a la derecha por defecto en tbody td
-              
-              row.insertCell(3).textContent = formatCurrency(subtproductos[i] || '0');
-              // row.cells[3].className = 'SubtProducto';
+            row.insertCell(1).textContent = descriptions[i] || "N/A";
+            row.cells[1].className = "descripcion-producto";
 
-              row.insertCell(4).textContent = formatCurrency(isvproductos[i] || '0');
-              // row.cells[4].className = 'IsvProducto';
+            row.insertCell(2).textContent = formatCurrency(prices[i] || "0");
+            // row.cells[2].className = 'Price'; // Ya se alinea a la derecha por defecto en tbody td
 
-              row.insertCell(5).textContent = formatCurrency(amounts[i] || '0');
-              // row.cells[5].className = 'Amount';
-            }
+            row.insertCell(3).textContent = formatCurrency(subtproductos[i] || "0");
+            // row.cells[3].className = 'SubtProducto';
+
+            row.insertCell(4).textContent = formatCurrency(isvproductos[i] || "0");
+            // row.cells[4].className = 'IsvProducto';
+
+            row.insertCell(5).textContent = formatCurrency(amounts[i] || "0");
+            // row.cells[5].className = 'Amount';
+          }
         }
 
         // Código de barras
@@ -439,30 +514,71 @@
         if (folioParam) {
           document.getElementById("barcode").src =
             "https://barcode.tec-it.com/barcode.ashx?data=" +
-            encodeURIComponent(folioParam) + "&code=Code128&dpi=96&imagetype=Png&height=40&hidehrt=True"; // hidehrt=True para ocultar texto debajo
+            encodeURIComponent(folioParam) +
+            "&code=Code128&dpi=96&imagetype=Png&height=40&hidehrt=True"; // hidehrt=True para ocultar texto debajo
         } else {
-           document.getElementById("barcode").style.display = 'none'; 
+          document.getElementById("barcode").style.display = "none";
         }
-        
+
         // Convertir monto total a letras
         var rawTotalStr = getQueryParam("total");
-        var totalForNumeroALetras = parseFloat(String(rawTotalStr).replace(/,/g, '')); 
+        var totalForNumeroALetras = parseFloat(
+          String(rawTotalStr).replace(/,/g, ""),
+        );
         if (isNaN(totalForNumeroALetras)) {
-          totalForNumeroALetras = 0; 
+          totalForNumeroALetras = 0;
         }
-        document.getElementById("montoLetras").textContent = numeroALetras(totalForNumeroALetras);
+        document.getElementById("montoLetras").textContent =
+          numeroALetras(totalForNumeroALetras);
       }
 
       // Función para convertir número a letras (Español) - Versión robusta
       function numeroALetras(numero) {
         const unidades = [
-          "", "UN", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE", "DIEZ",
-          "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISEIS", "DIECISIETE", "DIECIOCHO", "DIECINUEVE",
+          "",
+          "UN",
+          "DOS",
+          "TRES",
+          "CUATRO",
+          "CINCO",
+          "SEIS",
+          "SIETE",
+          "OCHO",
+          "NUEVE",
+          "DIEZ",
+          "ONCE",
+          "DOCE",
+          "TRECE",
+          "CATORCE",
+          "QUINCE",
+          "DIECISEIS",
+          "DIECISIETE",
+          "DIECIOCHO",
+          "DIECINUEVE",
         ];
-        const decenas = ["", "", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
+        const decenas = [
+          "",
+          "",
+          "VEINTE",
+          "TREINTA",
+          "CUARENTA",
+          "CINCUENTA",
+          "SESENTA",
+          "SETENTA",
+          "OCHENTA",
+          "NOVENTA",
+        ];
         const centenas = [
-          "", "CIENTO", "DOSCIENTOS", "TRESCIENTOS", "CUATROCIENTOS", "QUINIENTOS", "SEISCIENTOS",
-          "SETECIENTOS", "OCHOCIENTOS", "NOVECIENTOS",
+          "",
+          "CIENTO",
+          "DOSCIENTOS",
+          "TRESCIENTOS",
+          "CUATROCIENTOS",
+          "QUINIENTOS",
+          "SEISCIENTOS",
+          "SETECIENTOS",
+          "OCHOCIENTOS",
+          "NOVECIENTOS",
         ];
 
         function convertirGrupo(n) {
@@ -497,69 +613,74 @@
           if (n === 1) return "UN MILLON";
           return convertirGrupo(n) + " MILLONES";
         }
-        
+
         // Tratar el número como string para manejar decimales correctamente
         const numOriginalStr = String(numero);
         let parteEnteraStr, parteDecimalStr;
 
-        if (numOriginalStr.includes('.')) {
-            [parteEnteraStr, parteDecimalStr] = numOriginalStr.split('.');
-            parteDecimalStr = (parteDecimalStr || "00").padEnd(2, '0').substring(0,2);
+        if (numOriginalStr.includes(".")) {
+          [parteEnteraStr, parteDecimalStr] = numOriginalStr.split(".");
+          parteDecimalStr = (parteDecimalStr || "00").padEnd(2, "0").substring(0, 2);
         } else {
-            parteEnteraStr = numOriginalStr;
-            parteDecimalStr = "00";
+          parteEnteraStr = numOriginalStr;
+          parteDecimalStr = "00";
         }
-        
+
         let parteEntera = parseInt(parteEnteraStr, 10);
 
         if (isNaN(parteEntera)) return "VALOR INVÁLIDO";
-        if (parteEntera === 0 && parteDecimalStr === "00" && numOriginalStr !== "0") return "CERO LEMPIRAS CON 00/100";
-
+        if (parteEntera === 0 && parteDecimalStr === "00" && numOriginalStr !== "0")
+          return "CERO LEMPIRAS CON 00/100";
 
         let resultado = "";
         let esNegativo = parteEntera < 0;
         parteEntera = Math.abs(parteEntera);
 
         if (parteEntera === 0) {
-            resultado = "CERO";
+          resultado = "CERO";
         } else {
-            let millones = Math.floor(parteEntera / 1000000);
-            let miles = Math.floor((parteEntera % 1000000) / 1000);
-            let resto = parteEntera % 1000;
+          let millones = Math.floor(parteEntera / 1000000);
+          let miles = Math.floor((parteEntera % 1000000) / 1000);
+          let resto = parteEntera % 1000;
 
-            if (millones > 0) {
-              resultado += convertirMillones(millones) + " ";
-            }
-            if (miles > 0) {
-              resultado += convertirMiles(miles) + " ";
-            }
-            if (resto > 0) {
-                 resultado += convertirGrupo(resto);
-            }
+          if (millones > 0) {
+            resultado += convertirMillones(millones) + " ";
+          }
+          if (miles > 0) {
+            resultado += convertirMiles(miles) + " ";
+          }
+          if (resto > 0) {
+            resultado += convertirGrupo(resto);
+          }
         }
-        
+
         resultado = resultado.trim();
         if (esNegativo) {
           resultado = "MENOS " + resultado;
         }
-        
+
         // Ajuste para "UN LEMPIRA" vs "LEMPIRAS"
-        if (resultado === "UN" && parteEntera === 1 && !resultado.includes("MILLON") && !resultado.includes("MIL")) { // Solo si es "UN" y no parte de miles/millones
-            resultado += " LEMPIRA";
+        if (
+          resultado === "UN" &&
+          parteEntera === 1 &&
+          !resultado.includes("MILLON") &&
+          !resultado.includes("MIL")
+        ) {
+          // Solo si es "UN" y no parte de miles/millones
+          resultado += " LEMPIRA";
         } else {
-            resultado += " LEMPIRAS";
+          resultado += " LEMPIRAS";
         }
-        
+
         resultado += " CON " + parteDecimalStr + "/100";
 
         return resultado;
       }
 
-
       // Ejecutar fillData y luego imprimir al cargar la página
       window.onload = function () {
         fillData();
-        setTimeout(function() {
+        setTimeout(function () {
           window.print();
         }, 700); // Ligero aumento del retraso por si las imágenes o fuentes tardan más
       };
